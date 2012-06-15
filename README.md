@@ -20,6 +20,8 @@
 Simple localhost Landing Page
 ------------------------------
 
+Will problably switch this to XML and XSL to use as apache2 directory listing page.
+
 Install:
 
 1) Place index.php and .assets folder in root web directory.
