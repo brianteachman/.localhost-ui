@@ -19,7 +19,10 @@ LICENSE: WTFPL ( http://sam.zoy.org/wtfpl/COPYING )
 Simple localhost Interface
 ==========================
 
-A lightweight user interface for LAMP development. So far, on Ubuntu, it provides links for quick access to:
+A lightweight user interface for LAMP development. This is not finished software and as such it contains bugs, but, you know. :-)
+
+So far, on Ubuntu, it provides links for quick access to:
+
 + the web root directory 
 + the VirtualHost directory found on Ubuntu flavored debian
 + phpMyAdmin, for MySQL needs
@@ -29,12 +32,10 @@ A lightweight user interface for LAMP development. So far, on Ubuntu, it provide
 
 Install:
 
-1) Place index.php, docs.php, and the .localhost folder in root web directory.
-
-2) Define the path to the VHOST directory in /.localhost/runtime.inc.php, if capable (not by default on Windows).
-
-3) Define the path to whichever directories your documentaton files in /.localhost/runtime.inc.php.
+1. Place index.php, docs.php, and the .localhost folder in root web directory.
+2. In /.localhost/runtime.inc.php, configure any constants that need configuring.
+3. As is, this app depends on [php_error](http://phperror.net/) and [php-markdown](http://michelf.com/projects/php-markdown/). So, download and place both php_error.php and markdown.php into the /.localhost/vendor directory.
 
 ------------------------------------------------------------------------------------
-> Will problably switch this to XML and XSL to use as apache2 directory listing page.
-------------------------------------------------------------------------------------
+> Note: In the future this will problably switch this to XML and XSL to use as apache2 directory listing page.
+
