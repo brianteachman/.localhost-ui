@@ -7,20 +7,20 @@
  */
 include('.localhost.php');
 
-$files = listIt( CURRENT_DIR );
-$virtual_host = listIt( VHOST );
-
 echo head('Simple localhost interface');
+
+flash_messenger();
 
 $files = listIt( CURRENT_DIR );
 $file_meta = array(
     'id' => 'module',
     'title' => 'localhost',
     'tagline' => 'Listing: ' . getcwd(),
-//     'slug' => 'handler.php?list=',
+//     'slug' => '',
 );
 echo list_module($files, $file_meta);
 
+$virtual_host = listIt( VHOST );
 $vhost_meta = array(
     'id' => 'module',
     'title' => 'VirtualHost',

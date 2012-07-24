@@ -21,9 +21,9 @@ define('APP_LINK', '/.localhost/');
 define('ASSETS_LINK', APP_LINK . 'assets/');
 define('SCRIPTS', APP_LINK . 'scripts/');
 
-
-require(VENDOR.'php_error.php');
-\php_error\reportErrors();
+// Smoke em if you got em!
+// require(VENDOR.'php_error.php');
+// \php_error\reportErrors();
 
 require(APP_PATH.'/src/functions.inc.php');
 require(APP_PATH.'/src/view_helpers.inc.php');

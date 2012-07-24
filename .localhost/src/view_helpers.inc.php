@@ -1,61 +1,84 @@
 <?php
+$block_element = 'section';
+
 /**
- * Display header
+ * Return HTML header as string
  * 
  * @param string $title
+ * @param bool $html5 True sets HTML doctype, false sets XHTML
  * @return string
  */
-function head($title='Localhost Interface')
+function head($title='Localhost Interface', $html5=true)
 {
+    global $block_element;
     $styles = ASSETS_LINK . 'styles.css';
     $phpinfo = SCRIPTS . 'phpinfo.php';
+    
+    if ($html5) {
+        $doctype = <<<HTML
+<!DOCTYPE html>
+<html>
+HTML;
+    } else {
+        $doctype = <<<XHTML
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+XHTML;
+        $block_element = 'div';
+    }
+
     header('Content-type: text/html; charset=utf-8'); 
     
     return <<<HEADER
-<DOCTYPE html>
-<html>
+{$doctype}
     <head>
         <title>localhost >> {$title}</title>
         <link rel="stylesheet" href="{$styles}" />
     </head>
     <body>
-        <header>
+        <div id="header">
             <h1>{$title}</h1>
-            <nav>
+            <div id="nav">
                 | <a href="http://localhost/phpmyadmin/" target="_blank">phpMyAdmin</a>
                 | <a href="{$phpinfo}" target="_blank">phpinfo()</a>
-                | <a href="/docs.php" target="_blank">Docs</a>
-            </nav>
-        </header>
-        <section>
+                | <a href="/docs.php" target="_blank">Vendor docs</a>
+            </div>
+        </div>
+        <{$block_element}>
 HEADER;
 }
 
 /**
- * Display footer
+ * Return HTML footer as string
  * 
  * @return string
  */
 function foot()
 {
+    global $block_element;
+    
     $footer = <<<FOOTER
-        </section>
-    </body
+        </{$block_element}>
+    </body>
 </html>
 FOOTER;
     return $footer;
 }
 
 /**
- * Styled HTML block for listing arrays
+ * Return styled HTML list as a string
  * 
  * @param array $options
+ * @param string Optional list class attribute
  * @return string
  */
 function list_module($resource, $options=null, $li_class_override=null)
 {
+    static $module_id = 0;
+    ++$module_id;
     $meta = array(
-        'id' => 'module',
+        'id' => "module-{$module_id}",
         'title' => 'Default Module Title',
         'tagline' => 'This is the default module tagline.',
         'slug' => '',
@@ -66,7 +89,7 @@ function list_module($resource, $options=null, $li_class_override=null)
     
     $html = '<div id="' . $meta["id"] . '" class="listing">'
             . '<h2>' . ucfirst($meta["title"]) . '</h2>'
-            . '<hr><p>' . $meta["tagline"] . "</p>\n"
+            . '<hr /><p>' . $meta["tagline"] . "</p>\n"
             . "<ul>\n";
     foreach($resource as $listing) {
         
