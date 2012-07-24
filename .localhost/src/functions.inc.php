@@ -12,10 +12,9 @@ function listIt($directory_path, $show_hidden=false, $usr_exceptions=null) {
     // this should only reflect files in the scope of this app (localhost).
     $exceptions = array(
         '.localhost',
-        'docs',
         '000-default',
-        'phpinfo.php',
         'index.php',
+        'docs.php',
         'favicon.ico',
     );
     

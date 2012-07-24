@@ -16,16 +16,19 @@ if (isset($_GET["list"])) {
     list($resource, $subdir) = parse($_GET["list"]);
     
     if (is_array($resource)) {
+    
+        //@todo prepend $dir to all links in listed directory using javascript
+        $dir = realpath(dirname($_GET["list"]));
 
         $file_meta = array(
             'id' => 'module',
             'title' => 'Docs-file Handler',
-            'tagline' => PEAR_DOC_PATH,
-            'slug' => 'docs.php?list=' . PEAR_DOC_PATH,
+            'tagline' => $dir,
+            'slug' => "docs.php?list={$dir}/",
         );
         if (isset($subdir)) {
             $file_meta["title"] = ucfirst($subdir);
-            $file_meta["tagline"] .= "$subdir/";
+            $file_meta["tagline"] .= "/$subdir/";
             $file_meta["slug"] .= "$subdir/";
         }
         echo list_module($resource, $file_meta);
@@ -38,7 +41,6 @@ if (isset($_GET["list"])) {
 
     $files = listIt( CURRENT_DIR );
     $file_meta = array(
-        'id' => 'module',
         'title' => 'Local Docs',
         'tagline' => 'Listing: ' . getcwd(),
         'slug' => 'docs.php?list=',
@@ -47,7 +49,6 @@ if (isset($_GET["list"])) {
 
     $pear = listIt( PEAR_DOC_PATH );
     $pear_meta = array(
-        'id' => 'module',
         'title' => 'PEAR Docs',
         'tagline' => 'Listing: ' . PEAR_DOC_PATH,
         'slug' => 'docs.php?list=' . PEAR_DOC_PATH,
