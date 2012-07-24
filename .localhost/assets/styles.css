@@ -1,0 +1,29 @@
+body { 
+    background-color: #DDD; 
+    color: #333; 
+}
+h1 { 
+    padding: .25em 1em .125em; 
+    background-color: #EEE; 
+}
+a { color: #996600; }
+.listing {
+    float: left;
+    margin-left: 0.5em;
+}
+.listing h2, .listing p, h1 { text-align: center; }
+.listing a { 
+    display: block;
+}
+span.link {
+    vertical-align: super;
+}
+li.dir { list-style-image: url("/.localhost/icons/folder.png"); }
+li.file { list-style-image: url("/.localhost/icons/paper.png"); }
+li.vhost { list-style-image: url("/.localhost/icons/glitter.png"); }
+li { 
+    height: 24px;
+    background-color: #FFFFCC;
+    padding: .25em;
+    margin: 5px 0px;
+}

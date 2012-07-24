@@ -1,4 +1,4 @@
-/// LICENSE: WTFPL ( http://sam.zoy.org/wtfpl/COPYING ) ////////////
+LICENSE: WTFPL ( http://sam.zoy.org/wtfpl/COPYING )
 
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                     Version 2, December 2004
@@ -13,23 +13,28 @@
    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
   0. You just DO WHAT THE FUCK YOU WANT TO.
+  
+***
 
-////////////////////////////////////////////////////////////////////
+Simple localhost Interface
+==========================
 
-
-Simple localhost Landing Page
-------------------------------
-
-Will problably switch this to XML and XSL to use as apache2 directory listing page.
+A lightweight user interface for LAMP development. So far, on Ubuntu, it provides links for quick access to:
++ the web root directory 
++ the VirtualHost directory found on Ubuntu flavored debian
++ phpMyAdmin, for MySQL needs
++ phpinfo()
++ local documentation
++ and a file handler
 
 Install:
 
-1) Place index.php and .assets folder in root web directory.
+1) Place index.php, docs.php, and the .localhost folder in root web directory.
 
-2) Define path to VHOST directory in index.php, if capable (not by default on Windows).
+2) Define the path to the VHOST directory in /.localhost/runtime.inc.php, if capable (not by default on Windows).
 
-3) Define path to FILE_DIR in index.php.
+3) Define the path to whichever directories your documentaton files in /.localhost/runtime.inc.php.
 
-4) If you have phpinfo() already somewhere, define PHP_INFO. Or else:
-+  cd /path/to/WEB_ROOT
-+  touch phpinfo.php && sudo chmod 0640 phpinfo.php
+------------------------------------------------------------------------------------
+> Will problably switch this to XML and XSL to use as apache2 directory listing page.
+------------------------------------------------------------------------------------
