@@ -1,12 +1,23 @@
+html, body {
+    padding: 0px;
+    margin: 0px;
+}
 body { 
     background-color: #DDD; 
-    color: #333; 
+    color: #333;
+    
 }
 h1 { 
-    padding: .25em 1em .125em; 
+    padding: 0.25em 1em 0.125em; 
     background-color: #EEE; 
 }
 a { color: #996600; }
+
+#heading {
+    padding: 0px;
+    margin: 0px;
+}
+
 .listing {
     float: left;
     margin-left: 0.5em;
@@ -14,16 +25,20 @@ a { color: #996600; }
 .listing h2, .listing p, h1 { text-align: center; }
 .listing a { 
     display: block;
+    1text-decoration: none;
+}
+.listing a:hover { 
+    1text-decoration: underline;
 }
 span.link {
     vertical-align: super;
 }
-li.dir { list-style-image: url("/.localhost/icons/folder.png"); }
-li.file { list-style-image: url("/.localhost/icons/paper.png"); }
-li.vhost { list-style-image: url("/.localhost/icons/glitter.png"); }
+li.dir { list-style-image: url("/.localhost/assets/icons/folder.png"); }
+li.file { list-style-image: url("/.localhost/assets/icons/paper.png"); }
+li.vhost { list-style-image: url("/.localhost/assets/icons/glitter.png"); }
 li { 
-    height: 24px;
+    1line-height: 0.95em;
     background-color: #FFFFCC;
-    padding: .25em;
+    padding: 0.5em 0.5em 0em;
     margin: 5px 0px;
 }

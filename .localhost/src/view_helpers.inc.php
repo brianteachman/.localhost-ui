@@ -8,7 +8,7 @@ $block_element = 'section';
  * @param bool $html5 True sets HTML doctype, false sets XHTML
  * @return string
  */
-function head($title='Localhost Interface', $html5=true)
+function head($title='Localhost Interface', $html5=false)
 {
     global $block_element;
     $styles = ASSETS_LINK . 'styles.css';
@@ -21,9 +21,9 @@ function head($title='Localhost Interface', $html5=true)
 HTML;
     } else {
         $doctype = <<<XHTML
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 XHTML;
         $block_element = 'div';
     }
@@ -33,16 +33,16 @@ XHTML;
     return <<<HEADER
 {$doctype}
     <head>
-        <title>localhost >> {$title}</title>
+        <title>localhost &raquo; {$title}</title>
         <link rel="stylesheet" href="{$styles}" />
     </head>
     <body>
         <div id="header">
             <h1>{$title}</h1>
             <div id="nav">
-                | <a href="http://localhost/phpmyadmin/" target="_blank">phpMyAdmin</a>
-                | <a href="{$phpinfo}" target="_blank">phpinfo()</a>
-                | <a href="/docs.php" target="_blank">Vendor docs</a>
+                | <a href="http://localhost/phpmyadmin/">phpMyAdmin</a>
+                | <a href="{$phpinfo}">phpinfo()</a>
+                | <a href="/docs.php">Vendor docs</a>
             </div>
         </div>
         <{$block_element}>
@@ -60,6 +60,10 @@ function foot()
     
     $footer = <<<FOOTER
         </{$block_element}>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript">
+        
+        </script>
     </body>
 </html>
 FOOTER;
@@ -76,9 +80,8 @@ FOOTER;
 function list_module($resource, $options=null, $li_class_override=null)
 {
     static $module_id = 0;
-    ++$module_id;
     $meta = array(
-        'id' => "module-{$module_id}",
+        'id' => "module-" .  ++$module_id,
         'title' => 'Default Module Title',
         'tagline' => 'This is the default module tagline.',
         'slug' => '',

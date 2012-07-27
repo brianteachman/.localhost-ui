@@ -21,7 +21,6 @@ if (isset($_GET["list"])) {
         $dir = realpath(dirname($_GET["list"]));
 
         $file_meta = array(
-            'id' => 'module',
             'title' => 'Docs-file Handler',
             'tagline' => $dir,
             'slug' => "docs.php?list={$dir}/",

@@ -1,10 +1,14 @@
 <?php
 // User configuration
+
+
 define('VHOST', '/etc/apache2/sites-enabled');
 define('SYS_DOC_ROOT', '/usr/share/doc');
 define('PEAR_DOC_PATH', SYS_DOC_ROOT . '/php-pear/PEAR/');
 //
-define('SYS_DOC_LINK', '/doc/');
+define('DOMAIN_NAME', 'localhost-ui');
+// define('DOMAIN_NAME', 'localhost'); // this should be set for WEB_ROOT
+define('SYS_DOC_LINK', DOMAIN_NAME . '/doc/');
 define('PEAR_DOC_LINK', SYS_DOC_LINK . 'php-pear/PEAR/');
 
 

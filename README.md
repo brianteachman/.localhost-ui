@@ -33,6 +33,8 @@ So far, on Ubuntu, it provides links for quick access to:
 Install:
 
 1. Place index.php, docs.php, and the .localhost folder in root web directory.
+   + cd /var/www/ (or whatever)
+   + git clone git://github.com/lordbushi/Simple-localhost-Landing-Page.git
 2. In /.localhost/runtime.inc.php, configure any constants that need configuring.
 3. As is, this app depends on [php_error](http://phperror.net/) and [php-markdown](http://michelf.com/projects/php-markdown/). So, download and place both php_error.php and markdown.php into the /.localhost/vendor directory.
 

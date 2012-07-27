@@ -13,7 +13,6 @@ flash_messenger();
 
 $files = listIt( CURRENT_DIR );
 $file_meta = array(
-    'id' => 'module',
     'title' => 'localhost',
     'tagline' => 'Listing: ' . getcwd(),
 //     'slug' => '',
@@ -22,7 +21,6 @@ echo list_module($files, $file_meta);
 
 $virtual_host = listIt( VHOST );
 $vhost_meta = array(
-    'id' => 'module',
     'title' => 'VirtualHost',
     'tagline' => 'Site Development',
     'slug' => 'http://',
