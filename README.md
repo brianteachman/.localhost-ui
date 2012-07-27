@@ -33,10 +33,11 @@ So far, on Ubuntu, it provides links for quick access to:
 Install:
 
 1. Place index.php, docs.php, and the .localhost folder in root web directory.
-   + cd /var/www/ (or whatever)
-   + git clone git://github.com/lordbushi/Simple-localhost-Landing-Page.git
+   + ``cd /var/www/`` (or whatever)
+   + ``git clone git://github.com/lordbushi/Simple-localhost-Landing-Page.git``
 2. In /.localhost/runtime.inc.php, configure any constants that need configuring.
-3. As is, this app depends on [php_error](http://phperror.net/) and [php-markdown](http://michelf.com/projects/php-markdown/). So, download and place both php_error.php and markdown.php into the /.localhost/vendor directory.
+3. This app relies on [dflydev-markdown](http://github.com/dflydev/dflydev-markdown) to display markdown syntax. I am using [composer](http://getcomposer.org/) to install dependancies into the /.localhost/vendor directory and configure the autoloader, but you can download it manually if you want. If you don't use composer, be sure to remove 
+``require('vendor/autoload.php');`` from /.localhost/runtime.inc.php.
 
 ------------------------------------------------------------------------------------
 > Note: In the future this will problably switch this to XML and XSL to use as apache2 directory listing page.

@@ -1,8 +1,8 @@
 <?php
-require(VENDOR.'markdown.php');
+use dflydev\markdown\MarkdownParser;
 
 /**
- * @param string $directoryPath Path to directory
+ * @param string $directory_path Path to directory
  * @param bool $show_hidden
  * @param null|array $usr_exceptions
  * @return array $files Array of file or directory listings
@@ -65,7 +65,10 @@ function parse($subject)
     }
     elseif (strpos($listing, '.md') || strpos($listing, '.markdown')) {
         $markdown = file_get_contents($listing);
-        $resource = Markdown($markdown);
+        
+        $mdParser = new MarkdownParser();
+        $resource = $mdParser->transformMarkdown($markdown);
+        
         $subdir = null;
     } 
     else {
