@@ -42,7 +42,7 @@ XHTML;
             <div id="nav">
                 | <a href="http://localhost/phpmyadmin/">phpMyAdmin</a>
                 | <a href="{$phpinfo}">phpinfo()</a>
-                | <a href="/docs.php">Vendor docs</a>
+                | <a href="/?show=all">Vendor docs</a>
             </div>
         </div>
         <{$block_element}>
