@@ -20,8 +20,8 @@ define('VENDOR', APP_PATH . '/vendor/');
 define('CURRENT_DIR', '.');
 //
 define('APP_LINK', DOMAIN_NAME . '/.localhost/');
-define('ASSETS_LINK', APP_LINK . 'assets/');
-define('SCRIPTS', APP_LINK . 'scripts/');
+define('ASSETS', APP_LINK . 'assets/');
+define('SCRIPTS', ASSETS . 'scripts/');
 
 // PSR-0 Loader
 require('vendor/autoload.php');

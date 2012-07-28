@@ -1,5 +1,4 @@
 <?php
-$block_element = 'section';
 
 /**
  * Return HTML header as string
@@ -8,44 +7,40 @@ $block_element = 'section';
  * @param bool $html5 True sets HTML doctype, false sets XHTML
  * @return string
  */
-function head($title='Localhost Interface', $html5=false)
+function head($title='Localhost Interface')
 {
-    global $block_element;
-    $styles = ASSETS_LINK . 'styles.css';
+    $bootstrap = ASSETS . 'bootstrap/css/bootstrap.css';
+    $styles = ASSETS . 'styles.css';
     $phpinfo = SCRIPTS . 'phpinfo.php';
-    
-    if ($html5) {
-        $doctype = <<<HTML
-<!DOCTYPE html>
-<html>
-HTML;
-    } else {
-        $doctype = <<<XHTML
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-XHTML;
-        $block_element = 'div';
-    }
 
     header('Content-type: text/html; charset=utf-8'); 
     
     return <<<HEADER
-{$doctype}
+<!DOCTYPE html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>localhost &raquo; {$title}</title>
+        <link href="{$bootstrap}" rel="stylesheet">
         <link rel="stylesheet" href="{$styles}" />
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
     </head>
     <body>
-        <div id="header">
-            <h1><a href="/">{$title}</a></h1>
-            <div id="nav">
-                | <a href="http://localhost/phpmyadmin/">phpMyAdmin</a>
-                | <a href="{$phpinfo}">phpinfo()</a>
-                | <a href="/?list=all">Vendor docs</a>
+        <header class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="/">{$title}</a>
+                    <ul class="nav">
+                        <li><a href="http://localhost/phpmyadmin/" target="blank">phpMyAdmin</a></li>
+                        <li><a href="{$phpinfo}" target="blank">phpinfo()</a></li>
+                        <li><a href="/?list=all">Docs</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <{$block_element}>
+        </header>
+        <section class="lister row">
 HEADER;
 }
 
@@ -56,11 +51,14 @@ HEADER;
  */
 function foot()
 {
-    global $block_element;
+    $bootstrap = ASSETS . 'bootstrap/js/bootstrap.js';
     
     $footer = <<<FOOTER
-        </{$block_element}>
+        </section>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <!-- Bootstrap plugins -->
+        <script src="{$bootstrap}"></script>
+        
         <script type="text/javascript">
         
         </script>
@@ -90,9 +88,9 @@ function list_module($resource, $options=null, $li_class_override=null)
         $meta = array_merge($meta, $options);
     }
     
-    $html = '<div id="' . $meta["id"] . '" class="listing">'
+    $html = '<div id="' . $meta["id"] . '" class="listing span4">'
             . '<h2>' . ucfirst($meta["title"]) . '</h2>'
-            . '<hr /><p>' . $meta["tagline"] . "</p>\n"
+            . '<p>' . $meta["tagline"] . "</p>\n"
             . "<ul>\n";
     foreach($resource as $listing) {
         
