@@ -1,4 +1,12 @@
-.localhost/vendor/*
-*/composer.phar
-*/composer.lock
+# exclude everything
+/*
 
+# include explicitly:
+!index.php
+!README.md
+!.localhost/
+
+# then, exclude these
+.localhost/vendor/*
+.localhost/composer.phar
+.localhost/composer.lock

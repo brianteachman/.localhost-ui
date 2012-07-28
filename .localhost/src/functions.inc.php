@@ -14,7 +14,6 @@ function listIt($directory_path, $show_hidden=false, $usr_exceptions=null) {
         '.localhost',
         '000-default',
         'index.php',
-        'docs.php',
         'favicon.ico',
     );
     

@@ -38,11 +38,11 @@ XHTML;
     </head>
     <body>
         <div id="header">
-            <h1>{$title}</h1>
+            <h1><a href="/">{$title}</a></h1>
             <div id="nav">
                 | <a href="http://localhost/phpmyadmin/">phpMyAdmin</a>
                 | <a href="{$phpinfo}">phpinfo()</a>
-                | <a href="/?show=all">Vendor docs</a>
+                | <a href="/?list=all">Vendor docs</a>
             </div>
         </div>
         <{$block_element}>

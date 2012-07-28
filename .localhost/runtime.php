@@ -11,9 +11,28 @@ echo head('Simple localhost interface');
 
 flash_messenger();
 
-if (isset($_GET["show"])) {
+if (isset($_GET["list"])) {
 
-    if (isset($_GET["list"])) {
+    if ($_GET["list"] == 'all') {
+        
+        $local_docs = HTTPD . '/docs/';
+        $files = listIt( $local_docs );
+        $file_meta = array(
+            'title' => 'Local Docs',
+            'tagline' => 'Listing: localhost/docs',
+            'slug' => '?list=' . $local_docs,
+        );
+        echo list_module($files, $file_meta);
+
+        $pear_docs = listIt( PEAR_DOC_PATH );
+        $pear_meta = array(
+            'title' => 'PEAR Docs',
+            'tagline' => 'Listing: ' . PEAR_DOC_PATH,
+            'slug' => '?list=' . PEAR_DOC_PATH,
+        );
+        echo list_module($pear_docs, $pear_meta);
+        
+    } else {
 
         list($resource, $subdir) = parse($_GET["list"]);
         
@@ -23,9 +42,9 @@ if (isset($_GET["show"])) {
             $dir = realpath(dirname($_GET["list"]));
 
             $file_meta = array(
-                'title' => 'Docs-file Handler',
+                'title' => 'File Handler',
                 'tagline' => $dir,
-                'slug' => "docs.php?list={$dir}/",
+                'slug' => "?list={$dir}/",
             );
             if (isset($subdir)) {
                 $file_meta["title"] = ucfirst($subdir);
@@ -37,24 +56,6 @@ if (isset($_GET["show"])) {
 
             echo $resource ;
         }
-        
-    } else {
-
-        $files = listIt( CURRENT_DIR );
-        $file_meta = array(
-            'title' => 'Local Docs',
-            'tagline' => 'Listing: ' . getcwd(),
-            'slug' => 'docs.php?list=',
-        );
-        echo list_module($files, $file_meta);
-
-        $pear = listIt( PEAR_DOC_PATH );
-        $pear_meta = array(
-            'title' => 'PEAR Docs',
-            'tagline' => 'Listing: ' . PEAR_DOC_PATH,
-            'slug' => 'docs.php?list=' . PEAR_DOC_PATH,
-        );
-        echo list_module($pear, $pear_meta);
     }
     
 } else {
