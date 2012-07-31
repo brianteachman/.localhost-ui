@@ -23,10 +23,10 @@ define('APP_LINK', DOMAIN_NAME . '/.localhost/');
 define('ASSETS', APP_LINK . 'assets/');
 define('SCRIPTS', ASSETS . 'scripts/');
 
-// PSR-0 Loader
+// PSR-0 Loaders
 require('vendor/autoload.php');
-
-require(APP_PATH.'/src/functions.inc.php');
-require(APP_PATH.'/src/view_helpers.inc.php');
+spl_autoload_register(function($class) {
+    include(realpath(__DIR__).'/src/'.$class.'.php');
+});
 
 session_start();

@@ -7,34 +7,35 @@
  */
 include('runtime.inc.php');
 
-echo head('Simple localhost interface');
-
-flash_messenger();
+$host = new Localhost();
+$view = new View();
 
 if (isset($_GET["list"])) {
 
     if ($_GET["list"] == 'all') {
         
         $local_docs = HTTPD . '/docs/';
-        $files = listIt( $local_docs );
+        $files = $host->readIt( $local_docs );
         $file_meta = array(
             'title' => 'Local Docs',
             'tagline' => 'Listing: localhost/docs',
             'slug' => '?list=' . $local_docs,
         );
-        echo list_view($files, $file_meta);
+        $host->build($files, $file_meta);
 
-        $pear_docs = listIt( PEAR_DOC_PATH );
+        $pear_docs = $host->readIt( PEAR_DOC_PATH );
         $pear_meta = array(
             'title' => 'PEAR Docs',
             'tagline' => 'Listing: ' . PEAR_DOC_PATH,
             'slug' => '?list=' . PEAR_DOC_PATH,
         );
-        echo list_view($pear_docs, $pear_meta);
+        $host->build($pear_docs, $pear_meta);
+        
+        $view->render($host);
         
     } else {
 
-        list($resource, $subdir) = parse($_GET["list"]);
+        list($resource, $subdir) = $host->parse($_GET["list"]);
         
         if (is_array($resource)) {
         
@@ -51,31 +52,37 @@ if (isset($_GET["list"])) {
                 $file_meta["tagline"] .= "/$subdir/";
                 $file_meta["slug"] .= "$subdir/";
             }
-            echo list_view($resource, $file_meta);
+            $host->build($resource, $file_meta);
+            
+            $view->render($host);
+            
         } else {
-
-            echo $resource ;
+            echo $view->head('Resource Listing');
+            echo $resource;
+            echo $view->foot();
         }
+        
+        
     }
     
 } else {
 
-    $files = listIt( CURRENT_DIR );
+    $files = $host->readIt( CURRENT_DIR );
     $file_meta = array(
         'title' => 'localhost',
         'tagline' => 'Listing: ' . getcwd(),
         'slug' => '?list=' . HTTPD . '/',
     );
-    echo list_view($files, $file_meta);
+    $host->build($files, $file_meta);
 
-    $virtual_host = listIt( VHOST );
+    $virtual_host = $host->readIt( VHOST );
     $vhost_meta = array(
         'title' => 'VirtualHost',
         'tagline' => 'Site Development',
         'slug' => 'http://',
     );
-    echo list_view($virtual_host, $vhost_meta, 'vhost');
+    $host->build($virtual_host, $vhost_meta, 'vhost');
+    
+    $view->render($host);
 }
-
-echo foot();
 ?>
