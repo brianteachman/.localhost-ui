@@ -75,7 +75,7 @@ FOOTER;
  * @param string Optional list class attribute
  * @return string
  */
-function list_module($resource, $options=null, $li_class_override=null)
+function list_view($resource, $options=null, $li_class_override=null)
 {
     static $module_id = 0;
     $meta = array(

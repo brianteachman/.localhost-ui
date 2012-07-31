@@ -22,7 +22,7 @@ if (isset($_GET["list"])) {
             'tagline' => 'Listing: localhost/docs',
             'slug' => '?list=' . $local_docs,
         );
-        echo list_module($files, $file_meta);
+        echo list_view($files, $file_meta);
 
         $pear_docs = listIt( PEAR_DOC_PATH );
         $pear_meta = array(
@@ -30,7 +30,7 @@ if (isset($_GET["list"])) {
             'tagline' => 'Listing: ' . PEAR_DOC_PATH,
             'slug' => '?list=' . PEAR_DOC_PATH,
         );
-        echo list_module($pear_docs, $pear_meta);
+        echo list_view($pear_docs, $pear_meta);
         
     } else {
 
@@ -51,7 +51,7 @@ if (isset($_GET["list"])) {
                 $file_meta["tagline"] .= "/$subdir/";
                 $file_meta["slug"] .= "$subdir/";
             }
-            echo list_module($resource, $file_meta);
+            echo list_view($resource, $file_meta);
         } else {
 
             echo $resource ;
@@ -64,9 +64,9 @@ if (isset($_GET["list"])) {
     $file_meta = array(
         'title' => 'localhost',
         'tagline' => 'Listing: ' . getcwd(),
-    //     'slug' => '',
+        'slug' => '?list=' . HTTPD . '/',
     );
-    echo list_module($files, $file_meta);
+    echo list_view($files, $file_meta);
 
     $virtual_host = listIt( VHOST );
     $vhost_meta = array(
@@ -74,7 +74,7 @@ if (isset($_GET["list"])) {
         'tagline' => 'Site Development',
         'slug' => 'http://',
     );
-    echo list_module($virtual_host, $vhost_meta, 'vhost');
+    echo list_view($virtual_host, $vhost_meta, 'vhost');
 }
 
 echo foot();

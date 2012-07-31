@@ -31,11 +31,11 @@ function listIt($directory_path, $show_hidden=false, $usr_exceptions=null) {
             if (preg_match('/^\./', $filename)) continue;
         }
         if (!in_array($filename, $exceptions)) {
-            if (is_dir($filename)) {
-                $file["type"] = 'dir';
+            if (is_file($directory_path.'/'.$filename)) {
+                $file["type"] = 'file';
                 $file["name"] = $filename;
             } else {
-                $file["type"] = 'file';
+                $file["type"] = 'dir';
                 $file["name"] = $filename;
             }
             $files[] = $file;
