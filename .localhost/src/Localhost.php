@@ -30,7 +30,10 @@ class Localhost
     /**
      * @param string URI to read
      */
-    public function __construct () {}
+    public function __construct ()
+    {
+        $this->view = new View();
+    }
     
     public function __toString()
     {
@@ -95,7 +98,7 @@ class Localhost
             $meta = array_merge($meta, $options);
         }
         
-        $this->view .= View::titledListBlock($files, $meta, $li_class_override);
+        $this->view->titledListBlock($files, $meta, $li_class_override);
     }
     
     /**
@@ -140,7 +143,8 @@ class Localhost
             $markdown = file_get_contents($listing);
             $mdParser = new MarkdownParser();
             
-            $this->view = $mdParser->transformMarkdown($markdown);
+            $md = $mdParser->transformMarkdown($markdown);
+            $this->view->appendContent($md);
         } 
         elseif (strpos($listing, '.php') || strpos($listing, '.html')) {
             if ($options["slug"] != '') continue;
@@ -150,9 +154,15 @@ class Localhost
             header("Location: {$bypass}");
         } 
         else {
-            $this->view = file_get_contents($listing);
+            $file = file_get_contents($listing);
+            $this->view->appendContent($file);
         }
         
         return $template;
+    }
+    
+    public function view($template=true)
+    {
+        $this->view->render($this->view, $template);
     }
 }

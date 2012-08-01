@@ -9,6 +9,8 @@ class View
     
     public $view = '';
     
+    private $content = '';
+    
     public function __construct ($title='Localhost-UI')
     {
         $this->title = $title;
@@ -23,7 +25,6 @@ class View
      * Return HTML header as string
      * 
      * @param string $title
-     * @param bool $html5 True sets HTML doctype, false sets XHTML
      * @return string
      */
     public function head($title)
@@ -87,13 +88,18 @@ FOOTER;
         return $footer;
     }
     
+    public function appendContent($content)
+    {
+        $this->content .= $content;
+    }
+    
     /**
      * @param array $files
      * @param array $0ptions
      * @param string $li_class_override
      * @return string
      */
-    public static function titledListBlock($files, $options=null, $li_class_override=null)
+    public function titledListBlock($files, $options=null, $li_class_override=null)
     {
         $html = '<div id="' . $options["id"] . '" class="listing span4">'
                 . '<h2><i class="icon-folder-open"></i>' . ucfirst($options["title"]) . '</h2>'
@@ -113,7 +119,7 @@ FOOTER;
         }
         $html .= "</ul>\n</div>\n";
         
-        return $html;
+        $this->appendContent($html);
     }
 
     /**
@@ -181,7 +187,7 @@ FOOTER;
             }
             $this->view = $this->head($title)
                         . $this->messenger()
-                        . $content
+                        . $this->content
                         . $this->foot();
         }
         echo $this->view;

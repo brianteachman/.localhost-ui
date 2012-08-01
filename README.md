@@ -45,24 +45,18 @@ API:
 ----
 ``$host = new Localhost()``
 
-``$view = new View()``
-
 > Delegate content to proper handler
 
-> > ``$host->set($directory, $options=null, $class=null)``
+> ``$host->set($directory, $options)``
     
 > If templates, load; if title, set; then output content.
 
-> > ``$view->render($content, $template=true, $title=null)``
-    
-> Either sets a message or shows it (depends if message is set)
+> ``$host->view()``
 
-> > ``$view->messenger($message=null, $weight=0)``
 
 Typical use case:
 
     $host = new Localhost();
-    $view = new View();
 
     $file_meta = array(
         'title' => 'localhost',
@@ -76,7 +70,7 @@ Typical use case:
     );
     $host->set(VHOST, $vhost_meta, 'vhost');
     
-    $view->render($host);
+    $host->view();
     
 Other typical use case:
     
@@ -97,12 +91,12 @@ Other typical use case:
         );
         $host->set(PEAR_DOC_PATH, $pear_meta);
         
-        $view->render($host);
+        $host->view();
         
     } else {
 
         $style = $host->set($_GET["list"]);
-        $view->render($host, $style);
+        $host->view($style);
         
     }
     

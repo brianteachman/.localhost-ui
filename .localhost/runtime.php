@@ -8,7 +8,6 @@
 include('runtime.inc.php');
 
 $host = new Localhost();
-$view = new View();
 
 if (isset($_GET["list"])) {
 
@@ -29,12 +28,12 @@ if (isset($_GET["list"])) {
         );
         $host->set(PEAR_DOC_PATH, $pear_meta);
         
-        $view->render($host);
+        $host->view();
         
     } else {
 
         $style = $host->set($_GET["list"]);
-        $view->render($host, $style);
+        $host->view($style);
         
     }
     
@@ -52,6 +51,6 @@ if (isset($_GET["list"])) {
     );
     $host->set(VHOST, $vhost_meta, 'vhost');
     
-    $view->render($host);
+    $host->view();
 }
 ?>
