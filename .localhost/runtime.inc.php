@@ -1,7 +1,7 @@
 <?php
 // User configuration
 
-define('HTTPD', dirname(__DIR__));
+define('HTTPD', realpath(dirname(__DIR__)));
 define('SYS_DOC_ROOT', '/usr/share/doc');
 define('VHOST', '/etc/apache2/sites-enabled');
 
@@ -17,7 +17,7 @@ define('DOMAIN_NAME', ''); // Empty string for localhost
 // Internals
 define('APP_PATH', HTTPD . '/.localhost/');
 define('VENDOR', APP_PATH . '/vendor/');
-define('CURRENT_DIR', '.');
+define('CURRENT_DIR', realpath('.'));
 //
 define('APP_LINK', DOMAIN_NAME . '/.localhost/');
 define('ASSETS', APP_LINK . 'assets/');

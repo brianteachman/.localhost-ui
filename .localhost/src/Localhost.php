@@ -34,7 +34,7 @@ class Localhost
     
     public function __toString()
     {
-        return $this->view;
+        return (string) $this->view;
     }
     
     /**
@@ -43,9 +43,8 @@ class Localhost
      * @param string $directory Path to directory
      * @param bool $show_hidden
      * @param null|array $usr_exceptions
-     * @return string[] $files Array of file or directory listings
      */
-    public function readIt($directory, $show_hidden=false, $usr_exceptions=null) 
+    protected function scan($directory, $show_hidden=false, $usr_exceptions=null) 
     {    
         if ($usr_exceptions !== null) {
             $this->exceptions = array_merge($this->exceptions, $usr_exceptions);
@@ -74,38 +73,6 @@ class Localhost
         $dir->close();
 
         sort($this->files);
-
-        return $this->files;
-    }
-
-    /**
-     * Short description
-     * 
-     * @param array $subject
-     * @return string|array[]
-     */
-    public function parse($subject)
-    {
-        $listing = trim($subject);
-        
-        if (is_dir($listing)) {
-            $resource = readIt($listing);
-            $subdir = basename($listing);
-        }
-        elseif (strpos($listing, '.md') || strpos($listing, '.markdown')) {
-            $markdown = file_get_contents($listing);
-            
-            $mdParser = new MarkdownParser();
-            $resource = $mdParser->transformMarkdown($markdown);
-            
-            $subdir = null;
-        } 
-        else {
-            $resource = file_get_contents($listing);
-            $subdir = null;
-        }
-        
-        return array($resource, $subdir);
     }
     
     /**
@@ -115,37 +82,77 @@ class Localhost
      * @param string Optional list class attribute
      * @return void
      */
-    public function build($files, $options=null, $li_class_override=null)
+    protected function build($files, $options=null, $li_class_override=null)
     {
         static $module_id = 0;
         $meta = array(
             'id' => "module-" .  ++$module_id,
-            'title' => 'Default Module Title',
-            'tagline' => 'This is the default module tagline.',
+            'title' => 'Default Block Title',
+            'tagline' => 'This &lt;div&gt; was built in a Simple Factory',
             'slug' => '',
         );
         if (isset($options) && is_array($options)) {
             $meta = array_merge($meta, $options);
         }
         
-        $html = '<div id="' . $meta["id"] . '" class="listing span4">'
-                . '<h2>' . ucfirst($meta["title"]) . '</h2>'
-                . '<p>' . $meta["tagline"] . "</p>\n"
-                . "<ul>\n";
-                
-        foreach($files as $listing) {
-            
-            if ($li_class_override !== null) {
-                $listing["type"] = $li_class_override;
-            }
-            $html .= '<li class="' . $listing["type"] . '">'
-                     . '<a href="' . $meta["slug"] . $listing["name"] . '">'
-                        . '<span class="link">' . $listing["name"] . '</span>'
-                     . '</a>'
-                   . "</li>\n";
-        }
-        $html .= "</ul>\n</div>\n";
+        $this->view .= View::titledListBlock($files, $meta, $li_class_override);
+    }
+    
+    /**
+     * Loads directory, file handler 
+     * 
+     * @todo Break out a file-type finder
+     *
+     * @param string File or directory name
+     */
+    public function set($directory, $options=null, $class=null)
+    {
+        /**
+         * @var bool Return value
+         */
+        $template = true;
         
-        $this->view .= $html;
+        $listing = trim($directory);
+        $path = realpath(dirname($listing));
+        $subdir = basename($listing);
+        
+        if (is_dir($listing)) {
+            $this->scan($listing);
+        
+            if (isset($this->files) && is_array($this->files)) {
+
+                if (isset($subdir) && is_dir($listing/*$listing.'/'.$subdir*/)) {
+                    $options["title"] = ucfirst($subdir);
+                    $options["tagline"] = "{$path}/{$subdir}/";
+                    if ($listing == VHOST) {
+                        $options["slug"] = 'http://';
+                    } elseif ($listing == HTTPD) {
+                        $options["slug"] = '?list=' . HTTPD . '/';
+                    } else {
+                        $options["slug"] = "?list={$path}/{$subdir}/";
+                    }
+                }
+                
+                $this->build($this->files, $options, $class);
+            }
+        }
+        elseif (strpos($listing, '.md') || strpos($listing, '.markdown')) {
+            $markdown = file_get_contents($listing);
+            $mdParser = new MarkdownParser();
+            
+            $this->view = $mdParser->transformMarkdown($markdown);
+        } 
+        elseif (strpos($listing, '.php') || strpos($listing, '.html')) {
+            if ($options["slug"] != '') continue;
+            $template = false;
+            
+            $bypass = str_replace(HTTPD, 'http://localhost', $listing);
+            header("Location: {$bypass}");
+        } 
+        else {
+            $this->view = file_get_contents($listing);
+        }
+        
+        return $template;
     }
 }

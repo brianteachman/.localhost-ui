@@ -7,9 +7,16 @@ class View
 {
     public $title;
     
-    public function __construct ($title='Localhost')
+    public $view = '';
+    
+    public function __construct ($title='Localhost-UI')
     {
         $this->title = $title;
+    }
+    
+    public function __toString()
+    {
+        return (string) $this->view;
     }
     
     /**
@@ -79,33 +86,105 @@ HEADER;
 FOOTER;
         return $footer;
     }
-
-    /**
-     * @return string
-     */
-    public function messenger()
-    {
-        if (isset($_SESSION["message"])) {
-            echo '<span class="error">' . $_SESSION["message"] . '</span>';
-            unset($_SESSION["message"]);
-        }
-    }
     
     /**
-     * Return styled HTML list as a string
-     * 
-     * @param 
+     * @param array $files
+     * @param array $0ptions
+     * @param string $li_class_override
      * @return string
      */
-    public function render($content, $title=null)
+    public static function titledListBlock($files, $options=null, $li_class_override=null)
     {
-        if ($title === null) {
-            $title = $this->title;
+        $html = '<div id="' . $options["id"] . '" class="listing span4">'
+                . '<h2><i class="icon-folder-open"></i>' . ucfirst($options["title"]) . '</h2>'
+                . '<p>' . $options["tagline"] . "</p>\n"
+                . "<ul>\n";
+                
+        foreach($files as $listing) {
+            
+            if ($li_class_override !== null) {
+                $listing["type"] = $li_class_override;
+            }
+            $html .= '<li class="' . $listing["type"] . '">'
+                     . '<a href="' . $options["slug"] . $listing["name"] . '">'
+                        . '<span class="link">' . $listing["name"] . '</span>'
+                     . '</a>'
+                   . "</li>\n";
         }
-        echo $this->head($title)
-               . $this->messenger()
-               . $content 
-               . $this->foot();
+        $html .= "</ul>\n</div>\n";
+        
+        return $html;
+    }
+
+    /**
+     * Either sets a message or shows it (depends if message is set)
+     * 
+     * @param [string $message]
+     * @param [int $weight]
+     * @return bool|string
+     */
+    public function messenger($message=null, $weight=0)
+    {
+        $levels = array(
+            'info',
+            'notice',
+            'warning',
+            'error',
+        );
+        
+        $tbicon = array(
+            'icon-info-sign',
+            'icon-question-sign',
+            'icon-exclamation-sign',
+            'icon-remove-sign',
+        );
+        
+        if ($message !== null) {
+            $_SESSION["messenger"]["message"] = $message;
+            
+            if (array_key_exists($weight, $levels)) {
+                $class = $levels[$weight];
+            } else {
+                $class = $levels[3];
+            }
+            $_SESSION["messenger"]["level"] = $class;
+            return true;
+        }
+        if (isset($_SESSION["messenger"])) {
+            
+            $class = $_SESSION["messenger"]["level"];
+            $key = array_search($class, $levels);
+            $icon = $tbicon[$key];
+            $message = $_SESSION["messenger"]["message"];
+            unset($_SESSION["messenger"]);
+            
+            $messenger = '<span class="' . $class . '">'
+                 . '<i class="' . $icon . '"></i>'
+                 . $message
+                 . '</span>';
+            return $messenger;
+        }
+        return false;
+    }
+
+    /**
+     * If templates, load; if title, set; then output content. 
+     * 
+     * @param string
+     */
+    public function render($content, $template=true, $title=null)
+    {
+        if ($template) {
+            
+            if ($title === null) {
+                $title = $this->title;
+            }
+            $this->view = $this->head($title)
+                        . $this->messenger()
+                        . $content
+                        . $this->foot();
+        }
+        echo $this->view;
     }
 }
 

@@ -32,7 +32,7 @@ A lightweight user interface for LAMP development. Upon entering your localhost 
 Install:
 
 1. Place index.php and .localhost directory in your root web directory.
-   + ``cd /var/www/`` (or whatever)
+   + ``cd /var/www`` (or whatever)
    + ``git clone git://github.com/lordbushi/Simple-localhost-Landing-Page.git``
 2. In /.localhost/runtime.inc.php, configure any constants that need configuring.
 3. This app relies on [dflydev-markdown](http://github.com/dflydev/dflydev-markdown) to display markdown syntax. I am using [composer](http://getcomposer.org/) to install dependancies into the /.localhost/vendor directory and configure the autoloader, but you can download it manually if you want. If you don't use composer, be sure to remove 
@@ -41,72 +41,75 @@ Install:
 
 Here are my current thoughts on localhost access to resources.
 
-API:
+API: 
 ----
+``$host = new Localhost()``
 
-> ``Localhost::readIt($directory, $show_hidden=false, $usr_exceptions=null)``
+``$view = new View()``
+
+> Delegate content to proper handler
+
+> > ``$host->set($directory, $options=null, $class=null)``
     
-> ``Localhost::parse($subject)``
+> If templates, load; if title, set; then output content.
+
+> > ``$view->render($content, $template=true, $title=null)``
     
-> ``Localhost::build($options=null, $li_class_override=null)``
+> Either sets a message or shows it (depends if message is set)
+
+> > ``$view->messenger($message=null, $weight=0)``
 
 Typical use case:
 
     $host = new Localhost();
     $view = new View();
 
-    $files = $host->readIt( CURRENT_DIR );
     $file_meta = array(
         'title' => 'localhost',
         'tagline' => 'Listing: ' . getcwd(),
-        'slug' => '?list=' . HTTPD . '/',
     );
-    $host->build($files, $file_meta);
+    $host->set(HTTPD, $file_meta);
 
-    $virtual_host = $host->readIt( VHOST );
     $vhost_meta = array(
         'title' => 'VirtualHost',
         'tagline' => 'Site Development',
-        'slug' => 'http://',
     );
-    $host->build($virtual_host, $vhost_meta, 'vhost');
+    $host->set(VHOST, $vhost_meta, 'vhost');
     
-    $view->render($host, 'Yo house');
+    $view->render($host);
     
 Other typical use case:
     
-    list($resource, $subdir) = parse($_GET["list"]);
-    
-    if (is_array($resource)) {
-    
-        //@todo prepend $dir to all links in listed directory using javascript
-        $dir = realpath(dirname($_GET["list"]));
-
+    if ($_GET["list"] == 'all') {
+        
+        $local_docs = HTTPD . '/docs/';
         $file_meta = array(
-            'title' => 'File Handler',
-            'tagline' => $dir,
-            'slug' => "?list={$dir}/",
+            'title' => 'Local Docs',
+            'tagline' => 'Listing: localhost/docs',
+            'slug' => '?list=' . $local_docs,
         );
-        if (isset($subdir)) {
-            $file_meta["title"] = ucfirst($subdir);
-            $file_meta["tagline"] .= "/$subdir/";
-            $file_meta["slug"] .= "$subdir/";
-        }
-        $host->build($resource, $file_meta);
+        $host->set($local_docs, $file_meta);
+
+        $pear_meta = array(
+            'title' => 'PEAR Docs',
+            'tagline' => 'Listing: ' . PEAR_DOC_PATH,
+            'slug' => '?list=' . PEAR_DOC_PATH,
+        );
+        $host->set(PEAR_DOC_PATH, $pear_meta);
         
         $view->render($host);
         
     } else {
-        echo $view->head('Resource Listing');
-        echo $resource;
-        echo $view->foot();
+
+        $style = $host->set($_GET["list"]);
+        $view->render($host, $style);
+        
     }
     
 ------------------------------------------------------------------------------------
 
 TODO:
 
-* Finish file handler (eg, be able to open most all text based files in the browser)
 + Implement [Syntax highlighter](http://alexgorbatchev.com/SyntaxHighlighter/)
 * Integrate [text editor](https://github.com/lordbushi/Quite_Simple_PHP_File_Editor)
 
