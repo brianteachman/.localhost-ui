@@ -1,5 +1,5 @@
 <?php
-use dflydev\markdown\MarkdownParser;
+use dflydev\markdown\MarkdownExtraParser;
 
 /**
  * Localhost
@@ -14,7 +14,6 @@ class Localhost
     private $exceptions = array(
         '.localhost',
         '000-default',
-        'index.php',
         'favicon.ico',
     );
     
@@ -141,7 +140,7 @@ class Localhost
         }
         elseif (strpos($listing, '.md') || strpos($listing, '.markdown')) {
             $markdown = file_get_contents($listing);
-            $mdParser = new MarkdownParser();
+            $mdParser = new MarkdownExtraParser();
             
             $md = $mdParser->transformMarkdown($markdown);
             $this->view->appendContent($md);
