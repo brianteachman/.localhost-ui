@@ -15,7 +15,7 @@ Install:
 
 1. Clone localhost-ui into your root web directory.
    + `cd /var/www` (or whatever)
-   + `git clone git://github.com/lordbushi/Simple-localhost-Landing-Page.git`
+   + `git clone git://github.com/lordbushi/localhost-ui.git`
 2. In /.localhost/runtime.inc.php, configure any constants that need configuring.
 3. This app depends on [dflydev-markdown](http://github.com/dflydev/dflydev-markdown) to display markdown syntax. I am using [composer](http://getcomposer.org/) to install dependancies into the /.localhost/vendor directory and configure the autoloader, but you can download it manually if you want. If you don't use composer, be sure to remove 
 `require('vendor/autoload.php');` from /.localhost/runtime.inc.php.
