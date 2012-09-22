@@ -1,19 +1,35 @@
 <?php
+
 /**
  * Simple localhost interface.
  * 
  * @author Brian Teachman, Teachman Web Development <me@briant.me>
  * @license WTFPL <http://sam.zoy.org/wtfpl/COPYING>
  */
-include('runtime.inc.php');
+session_start();
+ 
+$config = include 'runtime.config.php';
 
-$host = new Localhost();
+// PSR-0 Loaders
+require 'vendor/autoload.php';
+include 'vendor/SplClassLoader.php';
+
+$loader = new SplClassLoader('Localhost', realpath(__DIR__) . '/classes');
+$loader->register();
+
+// spl_autoload_register(function($class) {
+//     include realpath(__DIR__).'/src/'.$class.'.php';
+// });
+
+$host = new \Localhost\ResourceLister(
+    new \Localhost\View('Teachman Web', $config)
+);
 
 if (isset($_GET["list"])) {
 
     if ($_GET["list"] == 'all') {
         
-        $local_docs = HTTPD . '/docs/';
+        $local_docs = $config['httpd'] . '/docs/';
         $file_meta = array(
             'title' => 'Local Docs',
             'tagline' => 'Listing: localhost/docs',
@@ -23,10 +39,10 @@ if (isset($_GET["list"])) {
 
         $pear_meta = array(
             'title' => 'PEAR Docs',
-            'tagline' => 'Listing: ' . PEAR_DOC_PATH,
-            'slug' => '?list=' . PEAR_DOC_PATH,
+            'tagline' => 'Listing: ' . $config['pear_docs'],
+            'slug' => '?list=' . $config['pear_docs'],
         );
-        $host->set(PEAR_DOC_PATH, $pear_meta);
+        $host->set($config['pear_docs'], $pear_meta);
         
         $host->view();
         
@@ -42,14 +58,23 @@ if (isset($_GET["list"])) {
     $file_meta = array(
         'title' => 'localhost',
         'tagline' => 'Listing: ' . getcwd(),
+        'slug' => '?list=' . $config['httpd'] . '/',
     );
-    $host->set(CURRENT_DIR, $file_meta);
+    $host->set($config['current_dir'], $file_meta);
 
     $vhost_meta = array(
         'title' => 'VirtualHost',
         'tagline' => 'Site Development',
+        'slug' => 'http://',
     );
-    $host->set(VHOST, $vhost_meta, 'vhost');
+    $host->set('/etc/apache2/sites-enabled', $vhost_meta, 'vhost');
+    
+    $vhost_meta = array(
+        'title' => 'Resources',
+        'tagline' => 'Templates and stuff',
+//         'slug' => 'Templates/',
+    );
+    $host->set('Templates', $vhost_meta, 'vhost');
     
     $host->view();
 }

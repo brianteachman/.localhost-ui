@@ -1,40 +1,47 @@
 <?php
+namespace Localhost;
 
 /**
  * View
  */
 class View
 {
+    /**
+     * @var array
+     */
+    private $config;
+    
     public $title;
-    
+
     public $view = '';
-    
+
     private $content = '';
-    
-    public function __construct ($title='Localhost-UI')
+
+    public function __construct ($title, $config)
     {
         $this->title = $title;
+        $this->config = $config;
     }
-    
+
     public function __toString()
     {
         return (string) $this->view;
     }
-    
+
     /**
      * Return HTML header as string
-     * 
-     * @param string $title
+     *
+     * @param  string $title
      * @return string
      */
     public function head($title)
     {
-        $bootstrap = ASSETS . 'bootstrap/css/bootstrap.css';
-        $styles = ASSETS . 'styles.css';
-        $phpinfo = SCRIPTS . 'phpinfo.php';
+        $bootstrap = $this->config['assets'] . 'bootstrap/css/bootstrap.css';
+        $styles = $this->config['assets'] . 'styles.css';
+        $phpinfo = $this->config['scripts'] . 'phpinfo.php';
 
-        header('Content-type: text/html; charset=utf-8'); 
-        
+        header('Content-type: text/html; charset=utf-8');
+
         return <<<HEADER
 <!DOCTYPE html>
 <html lang="en">
@@ -66,37 +73,38 @@ HEADER;
 
     /**
      * Return HTML footer as string
-     * 
+     *
      * @return string
      */
     public function foot()
     {
-        $bootstrap = ASSETS . 'bootstrap/js/bootstrap.js';
-        
+        $bootstrap = $this->config['assets'] . 'bootstrap/js/bootstrap.js';
+
         $footer = <<<FOOTER
         </section>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <!-- Bootstrap plugins -->
         <script src="{$bootstrap}"></script>
-        
+
         <script type="text/javascript">
-        
+
         </script>
     </body>
 </html>
 FOOTER;
+
         return $footer;
     }
-    
+
     public function appendContent($content)
     {
         $this->content .= $content;
     }
-    
+
     /**
-     * @param array $files
-     * @param array $0ptions
-     * @param string $li_class_override
+     * @param  array  $files
+     * @param  array  $0ptions
+     * @param  string $li_class_override
      * @return string
      */
     public function titledListBlock($files, $options=null, $li_class_override=null)
@@ -105,9 +113,9 @@ FOOTER;
                 . '<h2><i class="icon-folder-open"></i>' . ucfirst($options["title"]) . '</h2>'
                 . '<p>' . $options["tagline"] . "</p>\n"
                 . "<ul>\n";
-                
-        foreach($files as $listing) {
-            
+
+        foreach ($files as $listing) {
+
             if ($li_class_override !== null) {
                 $listing["type"] = $li_class_override;
             }
@@ -118,15 +126,15 @@ FOOTER;
                    . "</li>\n";
         }
         $html .= "</ul>\n</div>\n";
-        
+
         $this->appendContent($html);
     }
 
     /**
      * Either sets a message or shows it (depends if message is set)
-     * 
-     * @param [string $message]
-     * @param [int $weight]
+     *
+     * @param  [string     $message]
+     * @param  [int        $weight]
      * @return bool|string
      */
     public function messenger($message=null, $weight=0)
@@ -137,51 +145,54 @@ FOOTER;
             'warning',
             'error',
         );
-        
+
         $tbicon = array(
             'icon-info-sign',
             'icon-question-sign',
             'icon-exclamation-sign',
             'icon-remove-sign',
         );
-        
+
         if ($message !== null) {
             $_SESSION["messenger"]["message"] = $message;
-            
+
             if (array_key_exists($weight, $levels)) {
                 $class = $levels[$weight];
             } else {
                 $class = $levels[3];
             }
             $_SESSION["messenger"]["level"] = $class;
+
             return true;
         }
         if (isset($_SESSION["messenger"])) {
-            
+
             $class = $_SESSION["messenger"]["level"];
             $key = array_search($class, $levels);
             $icon = $tbicon[$key];
             $message = $_SESSION["messenger"]["message"];
             unset($_SESSION["messenger"]);
-            
+
             $messenger = '<span class="' . $class . '">'
                  . '<i class="' . $icon . '"></i>'
                  . $message
                  . '</span>';
+
             return $messenger;
         }
+
         return false;
     }
 
     /**
-     * If templates, load; if title, set; then output content. 
-     * 
+     * If templates, load; if title, set; then output content.
+     *
      * @param string
      */
     public function render($content, $template=true, $title=null)
     {
         if ($template) {
-            
+
             if ($title === null) {
                 $title = $this->title;
             }
@@ -193,4 +204,3 @@ FOOTER;
         echo $this->view;
     }
 }
-
