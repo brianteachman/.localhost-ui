@@ -1,0 +1,60 @@
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,500,700);
+
+body {
+    padding-top: 60px;
+    padding-left: 1.5em;
+    background-color: #DDD; 
+    color: #333;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+h2, h3 {
+    margin-top: 1em;
+}
+
+a { color: #996600; }
+
+#header {
+    padding: 0px;
+    margin: 0px;
+}
+
+.navbar-inner {
+    -moz-box-shadow: inset 0 0 5px 5px #DDD;
+    -webkit-box-shadow: inset 0 0 5px 5px #DDD;
+    box-shadow: inset 0 0 5px 5px #DDD;
+}
+
+.lister {
+    padding: 0 1em;
+}
+
+.listing {
+    
+}
+.listing h2, .listing p { text-align: center; }
+.listing h2 { 
+    line-height: 75%;
+    padding-bottom: 0.3em;
+    margin-bottom: 0.3em;
+    border-bottom: 4px solid #666;
+}
+
+.listing a { 
+    display: block;
+    1text-decoration: none;
+}
+.listing a:hover { 
+    1text-decoration: underline;
+}
+span.link {
+    vertical-align: super;
+}
+.listing li.dir { list-style-image: url("/.localhost/assets/icons/folder.png"); }
+.listing li.file { list-style-image: url("/.localhost/assets/icons/paper.png"); }
+.listing li.vhost { list-style-image: url("/.localhost/assets/icons/glitter.png"); }
+.listing li { 
+    background-color: #FFFFCC;
+    padding: 0.5em 0.5em 0em;
+    margin: 5px 0;
+}
