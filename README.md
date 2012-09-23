@@ -52,13 +52,13 @@ Typical use case:
         'title' => 'localhost',
         'tagline' => 'Listing: ' . getcwd(),
     );
-    $host->set(HTTPD, $file_meta);
+    $host->set($config['httpd'], $file_meta);
 
     $vhost_meta = array(
         'title' => 'VirtualHost',
-        'tagline' => 'Site Development',
+        'tagline' => 'My Domains',
     );
-    $host->set(VHOST, $vhost_meta, 'vhost');
+    $host->set('/etc/apache2/sites-enabled', $vhost_meta, 'vhost');
     
     $host->view();
     
@@ -66,7 +66,7 @@ Other typical use case:
     
     if ($_GET["list"] == 'all') {
         
-        $local_docs = HTTPD . '/docs/';
+        $local_docs = $config['httpd'] . '/docs/';
         $file_meta = array(
             'title' => 'Local Docs',
             'tagline' => 'Listing: localhost/docs',
