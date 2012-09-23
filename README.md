@@ -16,16 +16,28 @@ Install:
 1. Clone localhost-ui into your root web directory.
    + `cd /var/www` (or whatever)
    + `git clone git://github.com/lordbushi/localhost-ui.git`
-2. In /.localhost/runtime.inc.php, configure any constants that need configuring.
-3. This app depends on [dflydev-markdown](http://github.com/dflydev/dflydev-markdown) to display markdown syntax. I am using [composer](http://getcomposer.org/) to install dependancies into the /.localhost/vendor directory and configure the autoloader, but you can download it manually if you want. If you don't use composer, be sure to remove 
-`require('vendor/autoload.php');` from /.localhost/runtime.inc.php.
+2. In /.localhost/runtime.config.php, configure any elements that need configuring.
+3. This app depends on [dflydev-markdown](http://github.com/dflydev/dflydev-markdown) to display markdown syntax. I am using [composer](http://getcomposer.org/) to install it into /.localhost/vendor directory. So, run:
+   + `cp .localhost-ui/index.php index.php`
+   + `cd .localhost-ui`
+   + `php composer.phar install`
 
 
 Here are my current thoughts on localhost access to resources.
 
 ## API: 
 
-    $host = new Localhost();
+    <?php
+    use Localhost\View,
+        Localhost\ResourceLister;
+    
+    $config = include 'runtime.config.php';
+    
+    $view = new View('Localhost-UI');
+    $host = new ResourceLister(
+        $view,
+        $config
+    );
 
     // Delegate content to proper handler
     $host->set($directory, $options);
@@ -35,8 +47,6 @@ Here are my current thoughts on localhost access to resources.
 
 
 Typical use case:
-
-    $host = new Localhost();
 
     $file_meta = array(
         'title' => 'localhost',
@@ -63,13 +73,6 @@ Other typical use case:
             'slug' => '?list=' . $local_docs,
         );
         $host->set($local_docs, $file_meta);
-
-        $pear_meta = array(
-            'title' => 'PEAR Docs',
-            'tagline' => 'Listing: ' . PEAR_DOC_PATH,
-            'slug' => '?list=' . PEAR_DOC_PATH,
-        );
-        $host->set(PEAR_DOC_PATH, $pear_meta);
         
         $host->view();
         
