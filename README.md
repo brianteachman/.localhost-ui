@@ -94,3 +94,4 @@ TODO:
 
 > Note: (maybe) In the future this will switch this to XML and XSL to use as apache2 directory listing page.
 
+[![endorse](http://api.coderwall.com/lordbushi/endorsecount.png)](http://coderwall.com/lordbushi)
