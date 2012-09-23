@@ -15,7 +15,7 @@ Install:
 
 1. Clone localhost-ui into your root web directory.
    + `cd /var/www` (or whatever)
-   + `git clone git://github.com/lordbushi/localhost-ui.git`
+   + `git clone git://github.com/lordbushi/.localhost-ui.git`
 2. In /.localhost/runtime.config.php, configure any elements that need configuring.
 3. This app depends on [dflydev-markdown](http://github.com/dflydev/dflydev-markdown) to display markdown syntax. I am using [composer](http://getcomposer.org/) to install it into /.localhost/vendor directory. So, run:
    + `cp .localhost-ui/index.php index.php`
