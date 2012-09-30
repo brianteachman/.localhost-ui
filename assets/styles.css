@@ -50,9 +50,9 @@ a { color: #996600; }
 span.link {
     vertical-align: super;
 }
-.listing li.dir { list-style-image: url("/.localhost/assets/icons/folder.png"); }
-.listing li.file { list-style-image: url("/.localhost/assets/icons/paper.png"); }
-.listing li.vhost { list-style-image: url("/.localhost/assets/icons/glitter.png"); }
+.listing li.dir { list-style-image: url("/.localhost-ui/assets/icons/folder.png"); }
+.listing li.file { list-style-image: url("/.localhost-ui/assets/icons/paper.png"); }
+.listing li.vhost { list-style-image: url("/.localhost-ui/assets/icons/glitter.png"); }
 .listing li { 
     background-color: #FFFFCC;
     padding: 0.5em 0.5em 0em;

@@ -9,11 +9,8 @@
 session_start();
  
 // PSR-0 Loaders
-include 'vendor/SplClassLoader.php';
-$loader = new SplClassLoader('Localhost', realpath(__DIR__) . '/classes');
-$loader->register();
-$loader = new SplClassLoader('dflydev\markdown', realpath(__DIR__) . '/vendor/dflydev/markdown/src');
-$loader->register();
+$loader = require 'vendor/autoload.php';
+// $loader->add('Localhost', 'classes/');
 
 $config = include 'runtime.config.php';
 

@@ -1,5 +1,24 @@
 {
+    "name": "lordbushi/.localhost-ui",
+    "description": "User interface for localhost development.",
+    "keywords": ["php", "localhost", "interface"],
+    "homepage": "http://github.com/lordbushi/.localhost-ui",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Brian Teachman",
+            "email": "me@briant.me",
+            "homepage": "http://briant.me/"
+        }
+    ],
     "require": {
+        "php": ">=5.3.3",
         "dflydev/markdown": "1.0.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Localhost": "classes/"
+        }
     }
 }
