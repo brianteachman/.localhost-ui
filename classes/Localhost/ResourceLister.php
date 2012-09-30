@@ -150,7 +150,7 @@ class ResourceLister
             $this->view->appendContent($md);
             
         } elseif (strpos($listing, '.php') || strpos($listing, '.html')) {
-            if ($options["slug"] != '') continue;
+//             if ($options["slug"] != '') continue;
             $template = false;
 
             $bypass = str_replace($this->config['httpd'], 'http://localhost', $listing);

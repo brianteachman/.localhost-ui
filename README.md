@@ -3,6 +3,8 @@
 
 A lightweight user interface for LAMP development. Upon entering your localhost in a web browser this package provides links for quick access to:
 
+[![endorse](http://api.coderwall.com/lordbushi/endorsecount.png)](http://coderwall.com/lordbushi)
+
 + the web root directory 
 + the VirtualHost directory found on Ubuntu flavored debian
 + phpMyAdmin, for MySQL needs
@@ -94,4 +96,4 @@ TODO:
 
 > Note: (maybe) In the future this will switch this to XML and XSL to use as apache2 directory listing page.
 
-[![endorse](http://api.coderwall.com/lordbushi/endorsecount.png)](http://coderwall.com/lordbushi)
+
