@@ -1,12 +1,2 @@
-# exclude everything
-#/*
-
-# include explicitly:
-#!index.php
-#!README.md
-#!.localhost-ui/
-
-# then, exclude these
 vendor/*
-composer.phar
 composer.lock

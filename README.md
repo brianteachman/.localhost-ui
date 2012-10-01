@@ -3,8 +3,6 @@
 
 A lightweight user interface for LAMP development. Upon entering your localhost in a web browser this package provides links for quick access to:
 
-[![endorse](http://api.coderwall.com/lordbushi/endorsecount.png)](http://coderwall.com/lordbushi)
-
 + the web root directory 
 + the VirtualHost directory found on Ubuntu flavored debian
 + phpMyAdmin, for MySQL needs
@@ -37,11 +35,8 @@ In `.localhost-ui/runtime.php`:
     
     $config = include 'runtime.config.php';
     
-    $view = new View('Localhost-UI');
-    $host = new ResourceLister(
-        $view,
-        $config
-    );
+    $view = new View('Some Title');
+    $host = new ResourceLister($view, $config);
 
     // Delegate content to proper handler
     $host->set($directory, $options);
@@ -88,6 +83,8 @@ Other typical use case:
     }
     
 ------------------------------------------------------------------------------------
+
+[![endorse](http://api.coderwall.com/lordbushi/endorsecount.png)](http://coderwall.com/lordbushi)
 
 TODO:
 

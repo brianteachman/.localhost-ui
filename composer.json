@@ -1,9 +1,8 @@
 {
     "name": "lordbushi/.localhost-ui",
     "description": "User interface for localhost development.",
-    "keywords": ["php", "localhost", "interface"],
+    "keywords": ["php", "localhost", "user-interface"],
     "homepage": "http://github.com/lordbushi/.localhost-ui",
-    "type": "library",
     "license": "BSD-3-Clause",
     "authors": [
         {
