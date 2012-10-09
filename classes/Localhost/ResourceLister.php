@@ -123,20 +123,21 @@ class ResourceLister
         $template = true;
 
         $listing = trim($directory);
-        $path = realpath(dirname($listing));
-        $subdir = basename($listing);
+        
+        $path_to = realpath(dirname($listing));
+        $target = basename($listing);
 
         if (is_dir($listing)) {
+            
             $this->scan($listing);
 
             if (isset($this->files) && is_array($this->files)) {
 
-                if (isset($subdir) && is_dir($listing.'/'.$subdir)) {
-//                 if (isset($subdir) && is_dir($listing/*$listing.'/'.$subdir*/)) {
-                    $options["title"] = ucfirst($subdir);
-                    $options["tagline"] = "{$path}/{$subdir}/";
+                if (isset($target)) {
+                    $options["title"] = ucfirst($target);
+                    $options["tagline"] = "{$path_to}/{$target}/";
                     if (!isset($options["slug"])) {
-                        $options["slug"] = "?list={$path}/{$subdir}/";
+                        $options["slug"] = "?list={$path_to}/{$target}/";
                     }
                 }
                 $this->build($this->files, $options, $class);
