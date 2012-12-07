@@ -1,15 +1,23 @@
 <?php
-
 /**
  * Simple localhost interface.
  * 
  * @author Brian Teachman, Teachman Web Development <me@briant.me>
  * @license WTFPL <http://sam.zoy.org/wtfpl/COPYING>
  */
+
+define('DS', DIRECTORY_SEPARATOR);
+
+if (strpos(strtolower(PHP_OS), 'win') !== false) {
+    define('IS_WIN', true);
+} else {
+    define('IS_WIN', false);
+}
+
 session_start();
- 
+
 // PSR-0 Loaders
-$loader = require 'vendor/autoload.php';
+$loader = require 'vendor'.DS.'autoload.php';
 // $loader->add('Localhost', 'classes/');
 
 $config = include 'runtime.config.php';
@@ -23,7 +31,7 @@ if (isset($_GET["list"])) {
 
     if ($_GET["list"] == 'all') {
         
-        $local_docs = $config['httpd'] . '/docs/';
+        $local_docs = $config['httpd'] .DS. 'docs' .DS;
         $file_meta = array(
             'title' => 'Local Docs',
             'tagline' => 'Listing: localhost/docs',
@@ -34,7 +42,7 @@ if (isset($_GET["list"])) {
         $pear_meta = array(
             'title' => 'PEAR Docs',
             'tagline' => 'Listing: ' . $config['pear_docs'],
-            'slug' => '?list=' . $config['pear_docs'],
+            'slug' => '?list=' . $config['pear_docs'] .DS,
         );
         $host->set($config['pear_docs'], $pear_meta);
         
@@ -52,16 +60,18 @@ if (isset($_GET["list"])) {
     $file_meta = array(
         'title' => 'localhost',
         'tagline' => 'Listing: ' . getcwd(),
-//         'slug' => '?list=' . $config['httpd'] . '/',
+//         'slug' => '?list=' . $config['httpd'] . DS,
     );
     $host->set($config['current_dir'], $file_meta);
 
-    $vhost_meta = array(
-        'title' => 'VirtualHost',
-        'tagline' => 'Site Development',
-        'slug' => 'http://',
-    );
-    $host->set('/etc/apache2/sites-enabled', $vhost_meta, 'vhost');
+    if ( ! IS_WIN) {
+        $vhost_meta = array(
+            'title' => 'VirtualHost',
+            'tagline' => 'Site Development',
+            'slug' => 'http://',
+        );
+        $host->set('/etc/apache2/sites-enabled', $vhost_meta, 'vhost');
+    }
     
     $host->view();
 }

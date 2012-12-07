@@ -4,7 +4,7 @@ $domain = ''; // Empty string for localhost
 
 $root = realpath(dirname(__DIR__));
 
-return array(
+$config = array(
     'httpd' => $root,
     'current_dir' => realpath('.'),
     'app_path' => "{$root}/.localhost-ui/",
@@ -18,3 +18,8 @@ return array(
     'assets' => "{$domain}/.localhost-ui/assets/",
     'scripts' => "{$domain}/.localhost-ui/assets/scripts/",
 );
+
+if (IS_WIN) {
+    $config['pear_docs'] = "C:\Program Files (x86)\Zend\ZendServer\bin\PEAR";
+}
+return $config;
